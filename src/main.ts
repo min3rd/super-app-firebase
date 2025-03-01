@@ -20,6 +20,7 @@ import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai';
+import { environment } from './environments/environment';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -35,7 +36,7 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader
     }),
-    provideFirebaseApp(() => initializeApp()),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideAppCheck(() => {
       // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
