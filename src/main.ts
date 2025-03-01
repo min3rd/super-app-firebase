@@ -35,7 +35,7 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader
     }),
-    provideFirebaseApp(() => initializeApp({ projectId: "super-app-aa462", appId: "1:872704872193:web:62bc3497e48ed013691500", storageBucket: "super-app-aa462.firebasestorage.app", apiKey: "AIzaSyB_P6zUjB6mgPYYpwR51hmivbUGKvAdcyM", authDomain: "super-app-aa462.firebaseapp.com", messagingSenderId: "872704872193", measurementId: "G-JBHD2YQ5GH" })),
+    provideFirebaseApp(() => initializeApp()),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideAppCheck(() => {
       // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
