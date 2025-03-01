@@ -5,8 +5,9 @@
   "homepage": "https://github.com/min3rd",
   "scripts": {
     "ng": "ng",
-    "dev": "ng serve --watch",
+    "emulators": "npx kill-port 9099 8080 9599 5000 8085 9299 9499 9199 && firebase emulators:start",
     "start": "ng serve",
+    "dev": "npm run emulators && npm strt",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
