@@ -9,10 +9,10 @@ import { isDevMode } from '@angular/core';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { initializeAppCheck, ReCaptchaEnterpriseProvider, provideAppCheck } from '@angular/fire/app-check';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
@@ -26,7 +26,9 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)), provideHttpClient(), provideTransloco({
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideHttpClient(),
+    provideTransloco({
       config: {
         availableLangs: ['en', 'vi'],
         defaultLang: 'en',
@@ -37,13 +39,25 @@ bootstrapApplication(AppComponent, {
       loader: TranslocoHttpLoader
     }),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideAppCheck(() => {
-      // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
-      const provider = new ReCaptchaEnterpriseProvider("");
-      return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
+    provideAuth(() => {
+      const auth = getAuth();
+      if (location.hostname === 'localhost') {
+        connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
+      }
+      return auth;
     }),
-    provideFirestore(() => getFirestore()),
+    // provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideAppCheck(() => {
+    //   // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
+    //   const provider = new ReCaptchaEnterpriseProvider("");
+    //   return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
+    // }),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      if (location.hostname === 'localhost') {
+        connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+      }
+      return firestore;
+    }),
     provideDatabase(() => getDatabase()),
     provideFunctions(() => getFunctions()),
     provideMessaging(() => getMessaging()),
