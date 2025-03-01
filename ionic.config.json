@@ -1,0 +1,7 @@
+{
+  "name": "super-app-firebase",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
