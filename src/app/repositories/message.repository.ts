@@ -6,5 +6,5 @@ Injectable({
   providedIn: "root"
 })
 export class MessageRepository extends BaseRepository<Message> {
-  override collection: string | undefined = "messages";
+  override _collection: string = "messages";
 }

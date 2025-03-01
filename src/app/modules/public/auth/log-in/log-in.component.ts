@@ -15,20 +15,11 @@ export class LogInComponent extends BaseComponent {
   private _auth: Auth = inject(Auth);
   private _provider = new GoogleAuthProvider();
   user$ = user(this._auth);
-
-  private unsubscribeAll: Subject<any> = new Subject();
   override ngOnInit(): void {
     super.ngOnInit();
     this.user$.pipe(takeUntil(this.unsubscribeAll)).subscribe(user => {
       console.log(user);
-
     });
-  }
-
-  override ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.unsubscribeAll.next(null);
-    this.unsubscribeAll.complete();
   }
   logIn() {
     signInWithPopup(this._auth, this._provider).then(result => {

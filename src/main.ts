@@ -12,7 +12,7 @@ import { provideTransloco } from '@jsverse/transloco';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
@@ -40,7 +40,7 @@ bootstrapApplication(AppComponent, {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
-      if (location.hostname === 'localhost') {
+      if (location.hostname == "localhost") {
         connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
       }
       return auth;
@@ -55,12 +55,18 @@ bootstrapApplication(AppComponent, {
     // }),
     provideFirestore(() => {
       const firestore = getFirestore();
-      if (location.hostname === 'localhost') {
+      if (location.hostname == "localhost") {
         connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
       }
       return firestore;
     }),
-    provideDatabase(() => getDatabase()),
+    provideDatabase(() => {
+      const database = getDatabase();
+      if (location.hostname == "localhost") {
+        connectDatabaseEmulator(database, "127.0.0.1", 9599);
+      }
+      return database;
+    }),
     provideFunctions(() => getFunctions()),
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
