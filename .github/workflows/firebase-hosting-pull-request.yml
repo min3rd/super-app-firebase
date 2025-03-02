@@ -14,7 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm i -g @angular/cli && npm i -f
-      - run: cp firebase.config.ts.example firebase.config.ts
+      - name: Create firebase config file
+        run: |
+          cp firebase.config.ts.example firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_API_KEY\}\}/${{secrets.FIREBASE_API_KEY}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_AUTH_DOMAIN\}\}/${{secrets.FIREBASE_AUTH_DOMAIN}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_PROJECT_ID\}\}/${{secrets.FIREBASE_PROJECT_ID}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_STORAGE_BUCKET\}\}/${{secrets.FIREBASE_STORAGE_BUCKET}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_MESSAGING_SENDER_ID\}\}/${{secrets.FIREBASE_MESSAGING_SENDER_ID}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_APP_ID\}\}/${{secrets.FIREBASE_APP_ID}}/g' firebase.config.ts
+          sed -i 's/\$\{\{secrets.FIREBASE_MEASUREMENT_ID\}\}/${{secrets.FIREBASE_MEASUREMENT_ID}}/g' firebase.config.ts
+          echo firebase.config.ts
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

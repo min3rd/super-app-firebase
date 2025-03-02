@@ -73,4 +73,7 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Development file
 firebase.config.ts
+.env
