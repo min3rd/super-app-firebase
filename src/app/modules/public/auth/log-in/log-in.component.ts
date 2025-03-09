@@ -4,6 +4,7 @@ import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Auth, GoogleAuthProvider, signInWithPopup, user } from '@angular/fire/auth';
 import { Subject, takeUntil } from 'rxjs';
+import { SupabaseService } from 'src/app/core/services/supabase.service';
 
 @Component({
   selector: 'app-log-in',
@@ -14,6 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class LogInComponent extends BaseComponent {
   private _auth: Auth = inject(Auth);
   private _provider = new GoogleAuthProvider();
+  private _supabaseService: SupabaseService = inject(SupabaseService);
   user$ = user(this._auth);
   override ngOnInit(): void {
     super.ngOnInit();
@@ -23,10 +25,14 @@ export class LogInComponent extends BaseComponent {
   }
   logIn() {
     signInWithPopup(this._auth, this._provider).then(result => {
-      console.log(result);
-
       const credential = GoogleAuthProvider.credentialFromResult(result);
       return credential;
+    });
+  }
+  logInBySupabaseEmailAndPassword(email: string, password: string) {
+    this._supabaseService.supabase.auth.signUp({
+      email: email,
+      password: password
     });
   }
 }

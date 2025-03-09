@@ -12,4 +12,7 @@
   <ion-button (click)="logIn()">
     {{'sign in with google' | transloco}}
   </ion-button>
+  <ion-button (click)="logInBySupabaseEmailAndPassword('email@email.com','ThisIsPassword')">
+    {{'sign in with supabase' | transloco}}
+  </ion-button>
 </ion-content>

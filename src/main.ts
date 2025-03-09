@@ -18,7 +18,7 @@ import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai';
-import { firebaseConfig } from 'firebase.config';
+import { appConfig } from 'app.config';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -36,7 +36,7 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader
     }),
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(appConfig.firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
       if (location.hostname == "localhost") {

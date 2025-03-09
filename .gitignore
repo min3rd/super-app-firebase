@@ -76,4 +76,5 @@ Thumbs.db
 
 # Development file
 firebase.config.ts
+app.config.ts
 .env
